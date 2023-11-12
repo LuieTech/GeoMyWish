@@ -1,26 +1,66 @@
-const User = require("../models/user.model")
+const ListGroup = require('../models/list-group.model');
+const List = require('../models/list.model');
 const createError = require('http-errors');
 
 
 module.exports.isAuthenticated = (req, res, next) => {
 
-  // console.log("check middleware de autenticacion", req.session.userId)
+  if (req.user) {
+    next();
 
-  if (req.session.userId) {
-    User.findById(req.session.userId)
-      .then((user) => {
-        if(user){
-          console.log("checking if user is authenticated")
-          req.session.userId = user.id;
-          next();
-        } else {
-
-          // console.log("check if enter into error")
-          next(createError(401, "Unauthorized"));
-        }
-      })
   } else {
-    // console.log("check si no hay userId")
+   
     next(createError(401, "Unauthorized"));
   }
 }
+
+module.exports.isGroupOwner = (req, res, next) => {
+  // console.log(req.params.groupId)
+  ListGroup.findById(req.params.groupId)
+    .then(group => {
+      if (!group) {
+        return next(createError(404, "Group not found"));
+      }
+      if (group.user.toString() === req.user.id) {
+        next();
+      } else {
+        next(createError(403, "Forbidden"));
+      }
+    })
+    .catch(next);
+
+}
+
+module.exports.isListOwner = (req, res, next) => {
+  const listId = req.params.listId;
+  List.findById(listId)
+    .then(list => {
+      if (!list) {
+        return next(createError(404, "List not found"));
+      }
+      if (list.user.toString() !== req.user.id) {
+        return next(createError(403, "Forbidden"));
+      }
+      req.list = list;
+      next();
+    })
+    .catch(error => next(error));
+};
+
+
+module.exports.isProductOwner = (req, res, next) => {
+  
+  Product.findById(req.params.id)
+    .then(product => {
+      if (!product) {
+        return next(createError(404, "Product not found"));
+      }
+      if (product.user.toString() !== req.user.id) {
+        return next(createError(403, "Forbidden"));
+      }
+      req.product = product;
+      next();
+    })
+    .catch(next);
+};
+

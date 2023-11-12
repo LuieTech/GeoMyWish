@@ -38,10 +38,10 @@ const schema = new mongoose.Schema({
 }
 );
 
-schema.virtual('lists', {
-  ref: 'List',
+schema.virtual('groups', {
+  ref: 'ListGroups',
+  foreignField: 'user',
   localField: '_id',
-  foreignField: 'user'
 });
 
 schema.pre("save", function (next) {

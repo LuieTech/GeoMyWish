@@ -12,11 +12,11 @@ module.exports.login = (req, res, next) => {
   User.findOne({email: req.body.email})
     .then(user => {
       if(user) {
-        user.checkPassword(req.body.password)
+        return user.checkPassword(req.body.password)
           .then(match => {
             if(match) {
               req.session.userId = user.id;
-              res.status(200).json({message: 'User logged in'})
+              res.status(200).json(user)
             } else {
               res.status(404).json({message: 'User or Password incorrect'})
             }
