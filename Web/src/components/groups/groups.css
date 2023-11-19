@@ -1,0 +1,29 @@
+/* groups.css */
+.container.mt-4 {
+  background-color: #E7F0FE; /* Nuevo color de fondo azul claro */
+  min-height: 100vh; 
+  
+}
+
+.list-group-item {
+  background-color: #fff;
+  margin-bottom: 2px;
+  border: none;
+  border-radius: 20px; /* Curvatura añadida */
+  /* Resto de tus estilos */
+}
+
+
+/* Añade estilos para el icono de editar si es necesario */
+.edit-icon {
+  color: #6c757d; /* O el color que prefieras */
+  cursor: pointer;
+}
+
+.list-group-item > div {
+  cursor: pointer;
+}
+
+.list-group-item .text-muted {
+  font-size: 0.8em; /* Ajusta el tamaño según prefieras */
+}

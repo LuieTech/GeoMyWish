@@ -24,15 +24,13 @@ module.exports.list = (req, res, next) => {
 module.exports.create = (req, res, next) => {
   req.body.user = req.user.id; 
   req.body.group = req.params.groupId;
-  // console.log("Este es req.user", req.user.id)
-  // console.log("Este es req.paramas.groupId", req.params.groupId)
   List.create(req.body)
     .then(list => res.status(201).json(list))
     .catch(error => next(error));
 };
 
 module.exports.update = (req, res, next) => {
-  List.findByIdAndUpdate(req.params.id, req.body, { runValidators: true , new: true })
+  List.findByIdAndUpdate(req.params.listId, req.body, { runValidators: true , new: true })
     .then(list => {
       if(list) {
         res.status(200).json(list)
@@ -56,14 +54,20 @@ module.exports.delete = (req, res, next) => {
 }
 
 module.exports.details = (req, res, next) => {
-  List.findById(req.params.id)
-    .populate('products')
-    .then(list => {
-      if(list) {
-        res.status(200).json(list)
-      } else {
-        res.status(404).json({ message: 'List not found'})
+  List.findById(req.params.listId)
+    .populate('products') // Esto llenará el campo virtual 'products' con los datos de los productos.
+    .populate({
+      path: 'store',
+      populate: {
+        path: 'location' // Asumiendo que 'location' es un campo dentro del modelo 'Store' que también es una referencia.
       }
     })
-    .catch((error) => next(error))
-}
+    .then(list => {
+      if(list) {
+        res.status(200).json(list);
+      } else {
+        res.status(404).json({ message: 'List not found' });
+      }
+    })
+    .catch((error) => next(error));
+};

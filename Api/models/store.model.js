@@ -1,27 +1,19 @@
 const mongoose = require('mongoose');
 
 const storeSchema = new mongoose.Schema({
-  list: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'List',
-    required: true,
-  },
   name: {
     type: String,
     required: [true, 'Store name is required.'],
     trim: true,
   },
-  location: {
-    type: { type: String, enum: ['Point'], default: 'Point' },
-    coordinates: {
-      type: [Number], 
-      required: true
-    }
-  },
   address: {
     type: String,
     required: [true, 'Address is required.'],
     trim: true,
+  },
+  location: {
+    type: { type: String, default: 'Point' },
+    coordinates: [Number]
   },
  
 },

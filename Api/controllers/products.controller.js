@@ -51,7 +51,7 @@ module.exports.create = (req, res, next) => {
   const newProduct = {
     ...req.body,
     user: req.user.id, 
-    list: req.params.listId
+    list: listId
   };
 
   Product.create(newProduct)

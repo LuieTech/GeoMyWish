@@ -14,7 +14,6 @@ module.exports.list = (req, res, next) => {
       path: 'lists',
       populate: {
         path: 'products',
-        model: 'Product'
       }
     })
     .then(groups => res.status(200).json(groups))
@@ -22,7 +21,7 @@ module.exports.list = (req, res, next) => {
 }
 
 module.exports.details = (req, res, next) => {
-  ListGroup.findOne({ _id: req.params.id, user: req.user.id })
+  ListGroup.findOne({ _id: req.params.groupId, user: req.user.id })
     .populate('lists')
     .then(group => {
       if(group) {
@@ -36,7 +35,7 @@ module.exports.details = (req, res, next) => {
 
 module.exports.update = (req, res, next) => {
 
-  ListGroup.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true })
+  ListGroup.findByIdAndUpdate(req.params.groupId, req.body, { runValidators: true, new: true })
     .then(group => {
       if(group) {
         res.status(200).json(group)
@@ -48,7 +47,7 @@ module.exports.update = (req, res, next) => {
 }
 
 module.exports.delete = (req, res, next) => {
-  ListGroup.findByIdAndDelete(req.params.id)
+  ListGroup.findByIdAndDelete(req.params.groupId)
     .then(group => {
       if(group) {
         res.status(204).send()

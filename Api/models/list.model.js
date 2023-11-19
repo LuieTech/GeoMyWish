@@ -25,6 +25,10 @@ const listSchema = new mongoose.Schema({
     default: 'N/A',
     trim: true,
   },
+  store: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Store',
+  }
 },
 {
   timestamps: true, 

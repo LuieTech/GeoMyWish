@@ -23,17 +23,13 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: 'N/A',
   },
-  price: {
-    type: Number,
-    min: [0, 'Product price cannot be negative.']
-  },
   checked: {
     type: Boolean,
     default: false,
   },
-  imageUrl: {
-    type: String,
-    trim: true,
+  quantity: {
+    type: Number,
+    default: 1,
   },
 }, {
   timestamps: true,

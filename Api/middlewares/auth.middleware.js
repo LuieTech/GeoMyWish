@@ -15,16 +15,18 @@ module.exports.isAuthenticated = (req, res, next) => {
 }
 
 module.exports.isGroupOwner = (req, res, next) => {
-  // console.log(req.params.groupId)
-  ListGroup.findById(req.params.groupId)
+  const groupId = req.params.groupId;
+  console.log("Este es el groupId", groupId)
+  ListGroup.findById(groupId)
     .then(group => {
       if (!group) {
-        return next(createError(404, "Group not found"));
+        return next(createError(404, "Group is not found"));
       }
-      if (group.user.toString() === req.user.id) {
-        next();
-      } else {
+      if (group.user.toString() !== req.user.id) {
+        
         next(createError(403, "Forbidden"));
+      } else {
+        next();
       }
     })
     .catch(next);
@@ -33,6 +35,7 @@ module.exports.isGroupOwner = (req, res, next) => {
 
 module.exports.isListOwner = (req, res, next) => {
   const listId = req.params.listId;
+  console.log("Este es el listId", listId)
   List.findById(listId)
     .then(list => {
       if (!list) {

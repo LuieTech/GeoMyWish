@@ -1,28 +1,33 @@
-
 import { Navigate, Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/dashboard/dashboard';
-import GroupDetails from './pages/group-details/group-details';
-import ListDetails from './pages/list-details/list-details';
+import { Authenticated, Unauthenticated } from './components/authenticated';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Signup from './pages/register/register';
 import Login from './pages/login/login';
 import Navbar from './components/navbar';
-import SignupPage from './pages/register/register';
+import Lists from './components/lists/lists';
+import Groups from './components/groups/groups';
+import ListDetails from './components/lists/list-details';
+import './App.css';
+import ListForm from './pages/forms/list-form';
+import ProductForm from './pages/forms/product-form';
+
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/groups/:groupId" element={<GroupDetails />} />
-        <Route path="/lists/:listId" element={<ListDetails />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignupPage />} />
-
-        <Route path="*" element={<Navigate to="/" />} />
-        
-      </Routes>
+        <Route path="/login" element={<Unauthenticated><Login /></Unauthenticated>} />
+        <Route path="/signup" element={<Unauthenticated><Signup /></Unauthenticated>}  />
+        <Route path="groups" element={<Authenticated><Groups /></Authenticated>}  />
+        <Route path="/groups/:groupId" element={<Authenticated><Lists /></Authenticated>} />
+        <Route path="/list/:listId" element={<Authenticated><ListDetails /></Authenticated>} />
+        <Route path="/groups/:groupId/create-list" element={<ListForm />} />
+        <Route path="/lists/:listId/add-product" element={<ProductForm />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes> 
     </div>
   );
 }
 
-export default App;navigator
+export default App;
