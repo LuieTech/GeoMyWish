@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { createStore, getListDetails } from "../../service/api-services"; 
+import { createStore, deleteProduct, getListDetails } from "../../service/api-services"; 
 import { useAuthContext } from "../../contexts/auth-context";  
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { PencilSquare, Trash, PlusCircle } from 'react-bootstrap-icons';
@@ -40,9 +40,27 @@ function ListDetails() {
      });
   };
 
+  const handleDeleteClick = (productId) => {
+    console.log("EL productId es...", productId)//esto esta funcionando bien , ya tengo el id del producto;
+    deleteProduct(productId)
+      .then(() => {
+        setListDetails({
+          ...listDetails,
+          products: listDetails.products.filter(
+            (product) => product.id !== productId
+          ),
+        });
+      })
+      .catch((error) => {
+        console.error("Error deleting product:", error);
+      });
+  };
+
   if (!user) {
     return <Navigate to="/login" />;
   }
+
+  
 
   return (
     <Container className="components">
@@ -107,20 +125,19 @@ function ListDetails() {
             
             <ListGroup>
               {listDetails.products.map((product) => (
-                <ListGroup.Item
+                <ListGroup.Item 
                   key={product.id} 
-                  action
-                  onClick={() => navigate(`/products/${product.id}`)} 
+                  className="d-flex align-items-center justify-content-between"
                 >
-                  {product.name} 
+                  <div>{product.name}</div>
+                  <Trash className="ms-2" onClick={() => handleDeleteClick(product.id)} />
                 </ListGroup.Item>
-                
               ))}
               <div className="text-end">
                 <PlusCircle onClick={() => navigate(`/lists/${listDetails.id}/add-product`)}/>
               </div>
-
             </ListGroup>
+
           )}
         </Col>
         <div>

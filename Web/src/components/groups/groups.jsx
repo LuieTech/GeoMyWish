@@ -3,7 +3,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { getGroups, updateGroup, deleteGroup } from "../../service/api-services";
 import { useAuthContext } from "../../contexts/auth-context";
 import { Container, Row, Col, ListGroup, InputGroup, FormControl } from 'react-bootstrap';
-import { PencilSquare, CheckSquare, Trash } from 'react-bootstrap-icons';
+import { PencilSquare, CheckSquare, Trash, PlusCircle } from 'react-bootstrap-icons';
 import ConfirmationModal from "../modal/confirmation.modal";
 
 import "./groups.css";
@@ -134,6 +134,10 @@ function Groups() {
           </ConfirmationModal>
         </Col>
       </Row>
+      <div className="text-end">
+        
+        <PlusCircle onClick={() => navigate(`/create-groups`)}/>
+      </div>
     </Container>
   );
 }

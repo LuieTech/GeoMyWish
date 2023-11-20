@@ -33,7 +33,8 @@ router.get('/list/:listId/products', isAuthenticated, product.list);
 router.get('/products/:id', isAuthenticated, isProductOwner, product.details);
 router.post('/list/:listId/products', isAuthenticated, isListOwner, product.create);
 router.patch('/products/:id', isAuthenticated, isProductOwner, product.update);
-router.delete('/products/:id', isAuthenticated, isProductOwner, product.delete);
+router.delete('/delete-product/:id', isAuthenticated, isProductOwner, product.delete);
+// return service.delete(`/delete-product/${productId}`);
 
 //rutas para el controlador de Store
 router.get('/list/:listId/stores', isAuthenticated, stores.list);

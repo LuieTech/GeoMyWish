@@ -1,6 +1,7 @@
 const ListGroup = require('../models/list-group.model');
 const List = require('../models/list.model');
 const createError = require('http-errors');
+const Product = require('../models/product.model');
 
 
 module.exports.isAuthenticated = (req, res, next) => {
@@ -52,7 +53,8 @@ module.exports.isListOwner = (req, res, next) => {
 
 
 module.exports.isProductOwner = (req, res, next) => {
-  
+
+  console.log("Este es el productId", req.params.id)
   Product.findById(req.params.id)
     .then(product => {
       if (!product) {

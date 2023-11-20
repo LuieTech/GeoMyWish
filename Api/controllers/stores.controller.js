@@ -3,6 +3,23 @@ const Store = require('../models/store.model');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 
+exports.findNearbyStores = (req, res) => {
+  const { lat, lng } = req.query; // Asegúrate de que estas variables se envían correctamente desde el frontend
+
+  Store.find({
+    location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] },
+        $minDistance: 1000,
+        $maxDistance: 5000
+      }
+    }
+  })
+  .then(stores => res.json(stores))
+  .catch(err => res.status(500).json(err));
+};
+
+
 module.exports.list = (req, res, next) => {
   const criteria = {};
   const listId = req.params.listId;

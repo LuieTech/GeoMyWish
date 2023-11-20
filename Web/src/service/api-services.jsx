@@ -33,6 +33,10 @@ export function logoutApi(){
   return service.post("/logout")
 }
 //Groups
+export function createGroup(data){
+  return service.post("/groups", data)
+}
+
 export function getGroups(){
   return service.get("/groups")
 }
@@ -75,8 +79,8 @@ export function updateProduct(listId, productId, productData) {
   return service.patch(`/list/${listId}/products/${productId}`, productData);
 }
 
-export function deleteProduct(listId, productId) {
-  return service.delete(`/list/${listId}/products/${productId}`);
+export function deleteProduct(productId) {
+  return service.delete(`/delete-product/${productId}`);
 }
 
 //store
