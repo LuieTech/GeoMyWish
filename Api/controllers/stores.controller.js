@@ -3,22 +3,6 @@ const Store = require('../models/store.model');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 
-exports.findNearbyStores = (req, res) => {
-  const { lat, lng } = req.query; // Asegúrate de que estas variables se envían correctamente desde el frontend
-
-  Store.find({
-    location: {
-      $near: {
-        $geometry: { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] },
-        $minDistance: 1000,
-        $maxDistance: 5000
-      }
-    }
-  })
-  .then(stores => res.json(stores))
-  .catch(err => res.status(500).json(err));
-};
-
 
 module.exports.list = (req, res, next) => {
   const criteria = {};
@@ -45,11 +29,11 @@ module.exports.list = (req, res, next) => {
 }
 
 module.exports.create = (req, res, next) => {
-  const listId = req.params.listId || req.body.list;
+  const listId = req.params.listId;
   const newStore = {
     ...req.body,
     user: req.user.id,
-    list: listId
+    list: listId,
   };
   Store.create(newStore)
     .then(store => res.status(201).json(store))
@@ -67,3 +51,21 @@ module.exports.delete = (req, res, next) => {
     })
     .catch(next)
 }
+
+// store.controller.js
+
+exports.findNearbyStores = (req, res, next) => {
+  const { lat, lng } = req.query;
+
+  Store.find({
+    location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] },
+        $minDistance: 1000,
+        $maxDistance: 5000
+      }
+    }
+  })
+  .then(stores => res.status(200).json(stores))
+  .catch(next);
+};

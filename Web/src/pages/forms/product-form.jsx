@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Navigate } from 'react-router-dom';
+
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { createProduct } from '../../service/api-services';
 import { PlusSquare } from 'react-bootstrap-icons';
@@ -31,6 +31,7 @@ function ProductForm(){
     return (
             
           <Container className='components py-4'>
+          
 
             <h2>Create a Product</h2>
 

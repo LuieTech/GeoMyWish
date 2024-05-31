@@ -3,8 +3,10 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { createStore, deleteProduct, getListDetails } from "../../service/api-services"; 
 import { useAuthContext } from "../../contexts/auth-context";  
-import { Container, Row, Col, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Navbar } from 'react-bootstrap';
 import { PencilSquare, Trash, PlusCircle } from 'react-bootstrap-icons';
+
+
 
 
 function ListDetails() {
@@ -26,7 +28,9 @@ function ListDetails() {
       })
       .catch((error) => {
         console.error("Error fetching list details:", error);
-      });
+      });        
+      //console.log("ESTE ES EL LIST DETAILS ID: ", listId);
+
   }, [listId]);
 
   const handleSelectStore = () => {
@@ -41,7 +45,7 @@ function ListDetails() {
   };
 
   const handleDeleteClick = (productId) => {
-    console.log("EL productId es...", productId)//esto esta funcionando bien , ya tengo el id del producto;
+    //console.log("EL productId es...", productId)//esto esta funcionando bien , ya tengo el id del producto!
     deleteProduct(productId)
       .then(() => {
         setListDetails({
@@ -60,15 +64,24 @@ function ListDetails() {
     return <Navigate to="/login" />;
   }
 
-  
-
   return (
     <Container className="components">
       <Row>
         <Col md={6} className="mb-4 mt-4">
-          <div className="mb-2 d-flex align-item-center gap-2 ">
-            <h5 >List :</h5>
-            <p>{listDetails.title}</p>
+          <div className="mb-2 d-flex align-items-center gap-2 ">
+            <h2>Your are in {listDetails.title} list</h2>
+            <div className="">
+              <PencilSquare 
+                size={45} 
+                onClick={() => navigate(`/edit-list/${listId}`)}
+                className="btn btn-link" 
+                style={{ cursor: "pointer" }} 
+                // test edit shown next to icon 
+              /><span>Edit</span>
+            </div>
+            
+            
+            
           </div>
          
           <h5>Notes :</h5>
@@ -130,11 +143,17 @@ function ListDetails() {
                   className="d-flex align-items-center justify-content-between"
                 >
                   <div>{product.name}</div>
+                  
                   <Trash className="ms-2" onClick={() => handleDeleteClick(product.id)} />
                 </ListGroup.Item>
               ))}
               <div className="text-end">
-                <PlusCircle onClick={() => navigate(`/lists/${listDetails.id}/add-product`)}/>
+                <PlusCircle 
+                  className="me-2" 
+                  onClick={() => navigate(`/lists/${listDetails.id}/add-product`)}
+                  style={{ cursor: "pointer" }}
+                  />
+                <span>add</span>
               </div>
             </ListGroup>
 

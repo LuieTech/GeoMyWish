@@ -8,14 +8,14 @@ const listSchema = new mongoose.Schema({
   },
   group: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'GroupList',
+    ref: 'ListGroups',
     required: true
   },
   title: {
     type: String,
     required: [true, 'Title is required.'],
     minlength: [3, 'Title min 3 chars.'],
-    maxlength: [20, 'Title max 20 chars.'],
+    maxlength: [30, 'Title max 20 chars.'],
     trim: true,
   },
   description: {

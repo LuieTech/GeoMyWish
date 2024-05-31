@@ -51,15 +51,17 @@ export function deleteGroup(groupId) {
 
 //Lists
 export function getLists(groupId){
+  //console.log("ESTE ES EL GROUP ID desde api-services: ", groupId)
   return service.get(`/group/${groupId}/lists`)
 }
 
 export function getListDetails(listId){
+  //console.log("ESTE ES EL LIST ID desde api-services ListDetails: ", listId)
   return service.get(`/list/${listId}`)
 }
 
 export function deleteList(listId) {
-  return service.delete(`/list/${listId}`);
+  return service.delete(`/delete-list/${listId}`);
 }
 
 export function createList(groupId , listData) {
@@ -67,6 +69,7 @@ export function createList(groupId , listData) {
 }
 
 export function updateList(listId, listData) {
+  console.log("ESTE ES EL Update LIST ID desde api-services : ", listId)
   return service.patch(`/list/${listId}`, listData);
 }
 
@@ -88,8 +91,10 @@ export function getStores(){
   return service.get("/stores")
 }
 
-export function createStore(storeData){
-  return service.post("/stores", storeData)
+export function createStore( listId, storeData){
+  console.log("ESTE ES EL LIST ID desde api-services createStore: ", listId)
+  return service.post(`/list/${listId}/stores", storeData`)
+  ///list/:listId/stores
 }
 
 export function updateStore(storeId, storeData) {
@@ -99,4 +104,14 @@ export function updateStore(storeId, storeData) {
 export function deleteStore(storeId) {  
   return service.delete(`/stores/${storeId}`);
 }
+
+
+export function getNearbyStores(lat, lng) {
+  return axios.get(`/stores/near?lat=${lat}&lng=${lng}`)
+    .then(response => response.data)
+    .catch(error => {
+      throw error;
+    });
+}
+
 

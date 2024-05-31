@@ -31,7 +31,7 @@ function GroupForm(){
             
           <Container className='components py-4'>
 
-            <h2>Group name</h2>
+            <h2>Create Group</h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className='form-control-sm input-icon-container' style={{width:"auto", height:"50px"}}>
                 

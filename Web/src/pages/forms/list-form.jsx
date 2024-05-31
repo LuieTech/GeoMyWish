@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Navbar } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createList } from '../../service/api-services'; 
@@ -11,12 +11,12 @@ function ListForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-  
+    // Incorpora el ID del grupo al objeto de datos
     const listData = { ...data, group: groupId };
     
     createList(groupId, listData)
       .then(() => {
-
+        // Redireccionar a la página del grupo después de crear la lista
         navigate(`/groups/${groupId}`);
       })
       .catch(error => {
@@ -26,6 +26,7 @@ function ListForm() {
 
   return (
     <Container className='components'>
+
       <Row>
         <Col md={{ span: 6, offset: 3 }}> 
           <div className="create-list-form">

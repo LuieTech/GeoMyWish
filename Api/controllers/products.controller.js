@@ -72,18 +72,6 @@ module.exports.update = (req, res, next) => {
     .catch(next);
 }
 
-// module.exports.delete = (req, res, next) => {
-//   Product.findByIdAndDelete(req.params.id)
-//     .then(product => {
-//       if (product) {
-//         res.status(204).send();
-//       } else {
-//         next(createError(404, 'Product not found'));
-//       }
-//     })
-//     .catch(next);
-// }
-
 module.exports.delete = (req, res, next) => {
   console.log(`Attempting to delete product with ID: ${req.params.id}`);
 

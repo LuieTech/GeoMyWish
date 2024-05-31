@@ -22,7 +22,13 @@ module.exports.list = (req, res, next) => {
 
 module.exports.details = (req, res, next) => {
   ListGroup.findOne({ _id: req.params.groupId, user: req.user.id })
-    .populate('lists')
+  //mostrar populate de las listas y populate su grupo
+    .populate({
+      path: 'lists',
+      populate: {
+        path: 'groups',
+      }
+    })
     .then(group => {
       if(group) {
         res.status(200).json(group)

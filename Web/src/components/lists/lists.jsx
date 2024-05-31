@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams, Navigate } from "react-router-dom";
 import { getLists, deleteList } from "../../service/api-services";
 import { useAuthContext } from "../../contexts/auth-context";
-import { Container, Row, Col, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Navbar } from 'react-bootstrap';
 import { PencilSquare, Trash, PlusCircle } from 'react-bootstrap-icons';
 import ConfirmationModal from "../modal/confirmation.modal";
 
@@ -12,12 +12,13 @@ function Lists() {
   const [lists, setLists] = useState([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [selectedListId, setSelectedListId] = useState(null);
+  // const [selectedGroupId, setSelectedGroupId] = useState(null);
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const { register, watch } = useForm(); 
-
   useEffect(() => {
     let isMounted = true; 
+    //console.log("ESTE ES EL GROUP ID desde List component: ", groupId);
     getLists(groupId)
       .then((res) => {
         if (isMounted) { 
@@ -41,10 +42,6 @@ function Lists() {
     return <Navigate to="/login" />;
   }
 
-  const handleEdit = (listId) => {
-    navigate(`/list/${listId}/edit`);
-  };
-
   const handleDeleteClick = (listId) => {
     setSelectedListId(listId);
     setShowConfirmationModal(true);
@@ -65,10 +62,15 @@ function Lists() {
 
 
   return (
+    
     <Container className="components">
+
       <Row>
         <Col md={6} className="my-3 ">
-          <h2 className="text-left mb-4 mt-4">Your Lists...</h2>
+          {lists.length === 0 ? (<h2 className="text-left mb-4 mt-4">No lists in this group yet</h2>)  
+          : (<h2 className="text-left mb-4 mt-4">Your are viewing {lists[0].group.name}</h2>)
+        }
+          
           <form>
             <input
               className="form-control mb-4"

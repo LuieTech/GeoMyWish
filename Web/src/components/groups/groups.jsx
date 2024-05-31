@@ -96,6 +96,7 @@ function Groups() {
             />
           </InputGroup>
           <ListGroup>
+          {data.length === 0 && <div>No groups available.</div>}
           {filteredGroups.map((group) => (
             <ListGroup.Item key={group.id} className="d-flex justify-content-between align-items-center">
               {editingGroupId === group.id ? (
@@ -135,7 +136,6 @@ function Groups() {
         </Col>
       </Row>
       <div className="text-end">
-        
         <PlusCircle onClick={() => navigate(`/create-groups`)}/>
       </div>
     </Container>

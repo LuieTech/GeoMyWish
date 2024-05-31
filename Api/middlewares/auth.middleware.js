@@ -17,7 +17,7 @@ module.exports.isAuthenticated = (req, res, next) => {
 
 module.exports.isGroupOwner = (req, res, next) => {
   const groupId = req.params.groupId;
-  console.log("Este es el groupId", groupId)
+  //console.log("Este es el groupId desde auth middleware", groupId)
   ListGroup.findById(groupId)
     .then(group => {
       if (!group) {
@@ -36,7 +36,8 @@ module.exports.isGroupOwner = (req, res, next) => {
 
 module.exports.isListOwner = (req, res, next) => {
   const listId = req.params.listId;
-  console.log("Este es el listId", listId)
+  //console.log("Este es el listId de la lista desde el middleware de autenticación: ", listId)
+
   List.findById(listId)
     .then(list => {
       if (!list) {

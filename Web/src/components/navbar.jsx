@@ -2,29 +2,55 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { logoutApi } from '../service/api-services';
 import { ArrowLeftShort, Power } from 'react-bootstrap-icons'; 
 import { useAuthContext } from '../contexts/auth-context';
+import { useParams } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({groupId}) {
   const navigate = useNavigate();
   const location = useLocation();
+
   const { user, onLogout } = useAuthContext();
+
+  const pathSegments = location.pathname.split('/');
+
+  // const groupId = pathSegments[2]; 
+
+  const getBackRoute = () => {
+    if (location.pathname.startsWith('/groups/') && !location.pathname.includes('/list/')) {
+      return '/groups'; 
+    } else if (location.pathname.includes('/list/') && groupId) {
+      console.log("Group ID en Navbar:", groupId);
+      return `/groups/${groupId}`; 
+    } else {
+      return '/'; 
+    }
+  };
+  
+
+  const handleBackClick = () => {
+    const route = getBackRoute();
+    navigate(route);
+  };
+  
+
 
   const logout = () => {
     logoutApi().then(() => onLogout());
   };
 
-  // Decide si mostrar el botón de regreso dependiendo de la ruta actual
-  const shouldShowBackButton = location.pathname.includes('/groups/') || location.pathname.includes('/list');
+  let shouldShowBackButton = true;
 
-  // Decide no mostrar navbar en login page y signup page
   if (location.pathname === '/login' || location.pathname === '/signup') {
     return null;
+  }
+  if (location.pathname === '/groups') {
+    shouldShowBackButton = false;
   }
 
   return (
     <>
     <nav className="navbar d-flex justify-content-between align-items-center px-3">
       {shouldShowBackButton && (
-        <button className="btn btn-link" onClick={() => navigate(-1)}>
+        <button className="btn btn-link" onClick={() => handleBackClick()}>
           <ArrowLeftShort size={28} />
           Back
         </button>

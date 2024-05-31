@@ -12,6 +12,7 @@ import './App.css';
 import ListForm from './pages/forms/list-form';
 import ProductForm from './pages/forms/product-form';
 import GroupForm from './pages/forms/group-form';
+import EditList from './pages/forms/edit-list';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/groups" element={<Authenticated><Groups /></Authenticated>}  />
         <Route path="/groups/:groupId" element={<Authenticated><Lists /></Authenticated>} />
         <Route path="/list/:listId" element={<Authenticated><ListDetails /></Authenticated>} />
+        <Route path='/edit-list/:listId' element={<Authenticated><EditList /></Authenticated>} />
         <Route path="/create-groups" element={<Authenticated><GroupForm /></Authenticated>} />
         <Route path="/groups/:groupId/create-list" element={<ListForm />} />
         <Route path="/lists/:listId/add-product" element={<ProductForm />} />

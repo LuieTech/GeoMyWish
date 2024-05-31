@@ -9,8 +9,11 @@ module.exports.list = (req, res, next) => {
   if(groupId){
     criteria.group = groupId;
   }
+  
   List.find(criteria)
+    .populate('group')
     .then(lists => {
+      //console.log("Estas son las listas desde el controlador: ", lists)
       if(lists.length === 0){
         return res.status(404).json({ message: 'Lists not found' });
       }
@@ -30,6 +33,8 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.update = (req, res, next) => {
+  // console.log("Este es el listId desde el controlador: ", req.params.listId) esto esta funcionando bien
+   console.log("Este es el req.body desde el controlador: ", req.body) //esto tambien esta funcionando bien
   List.findByIdAndUpdate(req.params.listId, req.body, { runValidators: true , new: true })
     .then(list => {
       if(list) {
@@ -42,26 +47,23 @@ module.exports.update = (req, res, next) => {
 }
 
 module.exports.delete = (req, res, next) => {
-  List.findByIdAndDelete(req.params.id)
+  List.findByIdAndDelete(req.params.listId)
     .then(list => {
       if(list) {
-        res.status(204).json()
+        res.status(204).json({message: 'List deleted!!!'})
       } else {
-        res.status(404).json({ message: 'List not found'})
+        next(createError(404, 'List not found'))
       }
     })
-    .catch(next)
+    .catch((error) => next(error));
 }
 
 module.exports.details = (req, res, next) => {
+  //console.log("Este es el listId de la lista desde el controlador: ", req.params.listId)
   List.findById(req.params.listId)
-    .populate('products') // Esto llenará el campo virtual 'products' con los datos de los productos.
-    .populate({
-      path: 'store',
-      populate: {
-        path: 'location' // Asumiendo que 'location' es un campo dentro del modelo 'Store' que también es una referencia.
-      }
-    })
+    .populate('group')
+    .populate('store')
+    .populate('products') 
     .then(list => {
       if(list) {
         res.status(200).json(list);
