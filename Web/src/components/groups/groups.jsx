@@ -99,7 +99,6 @@ function Groups() {
   };
 
   return (
-    
     <Container className="components">
       <Row>
         <Col md={8} className="mx-auto">
@@ -114,7 +113,11 @@ function Groups() {
             />
           </InputGroup>
           <ListGroup>
-            {data?.length === 0 && <div className="text-primary">Please create your first shopping Group!</div>}
+            {data?.length === 0 && (
+              <div className="text-primary">
+                Please create your first shopping Group!
+              </div>
+            )}
             {filteredGroups?.map((group) => (
               <ListGroup.Item
                 key={group.id}
@@ -133,7 +136,10 @@ function Groups() {
                     }}
                   />
                 ) : (
-                  <span className=" mi-boton" onClick={() => navigate(`/groups/${group.id}`)}>
+                  <span
+                    className=" mi-boton"
+                    onClick={() => navigate(`/groups/${group.id}`)}
+                  >
                     {group.name}
                   </span>
                 )}
@@ -171,12 +177,12 @@ function Groups() {
           >
             Are you sure you want to delete this group?
           </ConfirmationModal>
+          <div className="text-end">
+            <span className="me-2 ">add group</span>
+            <PlusCircle className="mi-boton" onClick={() => navigate(`/create-groups`)} />
+          </div>
         </Col>
       </Row>
-      <div className="text-end">
-        <span className="me-2">add group</span>
-        <PlusCircle onClick={() => navigate(`/create-groups`)} />
-      </div>
     </Container>
   );
 }
