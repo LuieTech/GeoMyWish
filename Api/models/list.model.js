@@ -20,7 +20,7 @@ const listSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    minlength: [3, 'Description min 3 chars.'],
+    // minlength: [3, 'Description min 3 chars.'],
     maxlength: [100, 'Description max 100 chars.'],
     default: 'N/A',
     trim: true,
