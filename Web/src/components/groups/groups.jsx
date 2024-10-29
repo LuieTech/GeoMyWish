@@ -1,9 +1,25 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";  
-import { getGroups, updateGroup, deleteGroup } from "../../service/api-services";
+import { useNavigate, Navigate } from "react-router-dom";
+import {
+  getGroups,
+  updateGroup,
+  deleteGroup,
+} from "../../service/api-services";
 import { useAuthContext } from "../../contexts/auth-context";
-import { Container, Row, Col, ListGroup, InputGroup, FormControl } from 'react-bootstrap';
-import { PencilSquare, CheckSquare, Trash, PlusCircle } from 'react-bootstrap-icons';
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
+import {
+  PencilSquare,
+  CheckSquare,
+  Trash,
+  PlusCircle,
+} from "react-bootstrap-icons";
 import ConfirmationModal from "../modal/confirmation.modal";
 
 import "./groups.css";
@@ -19,33 +35,35 @@ function Groups() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) { 
+    if (user) {
       getGroups().then(setData);
     }
-  }, [user]); 
+  }, [user]);
 
   if (!user) {
-    return <Navigate to="/login" />
+    return <Navigate to="/login" />;
   }
 
-  const filteredGroups = data.filter((group) =>
-    group.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredGroups = data?.length
+    ? data.filter((group) =>
+        group.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   const handleEditClick = (group) => {
     setEditingGroupId(group.id);
     setEditValue(group.name);
-  } 
+  };
 
   const handleEditChange = (e) => {
     setEditValue(e.target.value);
-  }
+  };
 
   const saveEdit = (group) => {
     updateGroup(group, { name: editValue })
       .then((updatedGroup) => {
         setData(
-          data.map((group) => {
+          data?.map((group) => {
             if (group.id === updatedGroup.id) {
               return updatedGroup;
             } else {
@@ -58,30 +76,30 @@ function Groups() {
       .catch((error) => {
         console.error("Error updating group:", error);
       });
-    
-  }
+  };
 
   const handleDeleteClick = (groupId) => {
     setSelectedGroupId(groupId);
     setShowConfirmationModal(true);
   };
-  
+
   const handleCloseModal = () => {
     setShowConfirmationModal(false);
   };
-  
+
   const handleConfirmDelete = () => {
     handleCloseModal();
     deleteGroup(selectedGroupId)
       .then(() => {
-        setData(data.filter(group => group.id !== selectedGroupId));
+        setData(data?.filter((group) => group.id !== selectedGroupId));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error deleting group:", error);
       });
   };
 
   return (
+    
     <Container className="components">
       <Row>
         <Col md={8} className="mx-auto">
@@ -96,36 +114,56 @@ function Groups() {
             />
           </InputGroup>
           <ListGroup>
-          {data.length === 0 && <div>No groups available.</div>}
-          {filteredGroups.map((group) => (
-            <ListGroup.Item key={group.id} className="d-flex justify-content-between align-items-center">
-              {editingGroupId === group.id ? (
-                <FormControl
-                  autoFocus
-                  value={editValue}
-                  onChange={handleEditChange}
-                  onBlur={() => saveEdit(group.id)}
-                  onKeyPress={(event) => {
-                    if (event.key === "Enter") {
-                      saveEdit(group.id); 
-                    }
-                  }}
-                />
-              ) : (
-                <span onClick={() => navigate(`/groups/${group.id}`)}>{group.name}</span>
-              )}
-              {editingGroupId === group.id ? (
-                <CheckSquare className="ms-2" onClick={() => saveEdit(group.id)} />
-              ) : (
-                <div>
-                  <PencilSquare onClick={(e) => { e.stopPropagation(); handleEditClick(group); }} />
-                  <Trash className="ms-2" onClick={(e) => { e.stopPropagation(); handleDeleteClick(group.id); }} />
-                </div>
-              )}
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-        <ConfirmationModal
+            {data?.length === 0 && <div className="text-primary">Please create your first shopping Group!</div>}
+            {filteredGroups?.map((group) => (
+              <ListGroup.Item
+                key={group.id}
+                className="d-flex justify-content-between align-items-center"
+              >
+                {editingGroupId === group.id ? (
+                  <FormControl
+                    autoFocus
+                    value={editValue}
+                    onChange={handleEditChange}
+                    onBlur={() => saveEdit(group.id)}
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        saveEdit(group.id);
+                      }
+                    }}
+                  />
+                ) : (
+                  <span className=" mi-boton" onClick={() => navigate(`/groups/${group.id}`)}>
+                    {group.name}
+                  </span>
+                )}
+                {editingGroupId === group.id ? (
+                  <CheckSquare
+                    className="ms-2 "
+                    onClick={() => saveEdit(group.id)}
+                  />
+                ) : (
+                  <div>
+                    <PencilSquare
+                      className="mi-boton"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditClick(group);
+                      }}
+                    />
+                    <Trash
+                      className="ms-2 mi-boton"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(group.id);
+                      }}
+                    />
+                  </div>
+                )}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+          <ConfirmationModal
             show={showConfirmationModal}
             handleClose={handleCloseModal}
             handleConfirm={handleConfirmDelete}
@@ -136,11 +174,11 @@ function Groups() {
         </Col>
       </Row>
       <div className="text-end">
-        <PlusCircle onClick={() => navigate(`/create-groups`)}/>
+        <span className="me-2">add group</span>
+        <PlusCircle onClick={() => navigate(`/create-groups`)} />
       </div>
     </Container>
   );
 }
 
 export default Groups;
-

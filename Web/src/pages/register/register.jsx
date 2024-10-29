@@ -11,6 +11,8 @@ function Signup() {
   const { user, onLogin } = useAuthContext();
 
   function handleSignup(data) {
+    console.log(data);
+    
     createUser(data)
       .then(() => login(data))
       .then((user) => onLogin(user))
@@ -21,10 +23,10 @@ function Signup() {
   }
 
 return (
-  <Container className="d-flex align-items-center justify-content-center" style={{ backgroundColor: '#f8f9fa', minHeight: "100vh" }}>
+  <Container className="d-flex align-items-center justify-content-center" style={{ backgroundColor: '#f8f9fa', minHeight: "100vh", maxWidth:"auto" }}>
     <Row>
-      <Col md={6} className="mx-auto">
-        <Form className="signup-form" onSubmit={handleSubmit(handleSignup)}>
+      <Col style={{display:"contents"}}>
+        <Form className="w-auto" onSubmit={handleSubmit(handleSignup)}>
           <h1 className="text-center mb-4">Sign Up</h1>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>

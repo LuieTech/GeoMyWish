@@ -18,17 +18,16 @@ function Lists() {
   const { register, watch } = useForm(); 
   useEffect(() => {
     let isMounted = true; 
-    //console.log("ESTE ES EL GROUP ID desde List component: ", groupId);
     getLists(groupId)
       .then((res) => {
-        if (isMounted) { 
+        if (isMounted && Array.isArray(res)) { 
           setLists(res);
-        }
+        } 
       })
       .catch((error) => {
-        if (isMounted) { 
-          console.error("Error fetching lists:", error);
-        }
+        if (isMounted && error.response?.status === 404) {
+          setLists([]);
+        } 
       });
     return () => {
       isMounted = false; 
@@ -58,20 +57,17 @@ function Lists() {
       });
   };
 
-
-
-
   return (
     
     <Container className="components">
 
       <Row>
-        <Col md={6} className="my-3 ">
+        <Col  md={8} className="mx-auto">
           {lists.length === 0 ? (<h2 className="text-left mb-4 mt-4">No lists in this group yet</h2>)  
-          : (<h2 className="text-left mb-4 mt-4">Your are viewing {lists[0].group.name}</h2>)
+          : (<h2 className="text-left mb-4 mt-4 ">Your are on {lists[0].group.name}</h2>)
         }
           
-          <form>
+          <form >
             <input
               className="form-control mb-4"
               type="text"
@@ -81,18 +77,18 @@ function Lists() {
             />
           </form>
           {filteredLists.length === 0 ? (
-            <div>No Lists available in this group.</div>
+            <div className="text-primary">Now create your first shopping List!</div>
           ) : (
             <ListGroup>
-              {filteredLists.map((list) => (
-                <ListGroup.Item key={list.id} className="d-flex justify-content-between align-items-center">
-                  <div onClick={() => navigate(`/list/${list.id}`)}>
-                    <strong>{list.title}</strong> 
-                    <div className="text-muted">{list.description}</div> 
+              {filteredLists?.map((list) => (
+                <ListGroup.Item key={list.id} className="d-flex justify-content-between">
+                  <div className="d-flex flex-column" onClick={() => navigate(`/list/${list.id}`)}>
+                    <span className="mi-boton fw-bold ">{list.title}</span> 
+                    <span className="text-muted">{list.description}</span> 
                   </div>
                   <div>
                     {/* <PencilSquare onClick={() => handleEdit(list.id)} /> */}
-                    <Trash className="ms-2" onClick={() => handleDeleteClick(list.id)} />
+                    <Trash className="ms-2 mi-boton" onClick={() => handleDeleteClick(list.id)} />
                   </div>
                 </ListGroup.Item>
               ))}

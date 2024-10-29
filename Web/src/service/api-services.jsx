@@ -4,10 +4,11 @@ const service = axios.create(
 
   {
     withCredentials: true,
-    baseURL : import.meta.env.REACT_APP_BASE_API_URL || 'http://localhost:3000/v1'
+    baseURL : import.meta.env.VITE_REACT_BASE_API_URL || ''
   }
 
 );
+
 
 service.interceptors.response.use(
   response => response.data,
@@ -15,11 +16,17 @@ service.interceptors.response.use(
     if (error.response.status === 401 && window.location.pathname !== "/login") {
       localStorage.removeItem("user");
       window.location.assign("/login");
+    } else if(error.response.status === 404 && error.response.data.message === "Lists not found"){
+      return Promise.resolve([]);
     } else {
       return Promise.reject(error);
     }
   }
 );
+
+console.log(import.meta.env.VITE_REACT_BASE_API_URL);
+
+
 //User
 export function createUser(data){
   return service.post("/register", data)
@@ -86,32 +93,32 @@ export function deleteProduct(productId) {
   return service.delete(`/delete-product/${productId}`);
 }
 
-//store
-export function getStores(){
-  return service.get("/stores")
-}
+// store
+// export function getStores(){
+//   return service.get("/stores")
+// }
 
-export function createStore( listId, storeData){
-  console.log("ESTE ES EL LIST ID desde api-services createStore: ", listId)
-  return service.post(`/list/${listId}/stores", storeData`)
-  ///list/:listId/stores
-}
+// export function createStore( listId, storeData){
+//   // console.log("ESTE ES EL LIST ID desde api-services createStore: ", listId)
+//   return service.post(`/list/${listId}/stores", storeData`)
+//   ///list/:listId/stores
+// }
 
-export function updateStore(storeId, storeData) {
-  return service.patch(`/stores/${storeId}`, storeData);
-}
+// export function updateStore(storeId, storeData) {
+//   return service.patch(`/stores/${storeId}`, storeData);
+// }
 
-export function deleteStore(storeId) {  
-  return service.delete(`/stores/${storeId}`);
-}
+// export function deleteStore(storeId) {  
+//   return service.delete(`/stores/${storeId}`);
+// }
 
 
-export function getNearbyStores(lat, lng) {
-  return axios.get(`/stores/near?lat=${lat}&lng=${lng}`)
-    .then(response => response.data)
-    .catch(error => {
-      throw error;
-    });
-}
+// export function getNearbyStores(lat, lng) {
+//   return axios.get(`/stores/near?lat=${lat}&lng=${lng}`)
+//     .then(response => response.data)
+//     .catch(error => {
+//       throw error;
+//     });
+// }
 
 

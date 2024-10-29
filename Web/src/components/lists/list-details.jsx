@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { createStore, deleteProduct, getListDetails } from "../../service/api-services"; 
+import { deleteProduct, getListDetails } from "../../service/api-services"; 
 import { useAuthContext } from "../../contexts/auth-context";  
-import { Container, Row, Col, ListGroup, Navbar } from 'react-bootstrap';
-import { PencilSquare, Trash, PlusCircle } from 'react-bootstrap-icons';
+import { Container, Row, Col, ListGroup, Navbar, Alert } from 'react-bootstrap';
+import { PencilSquare, Trash, PlusCircle, ExclamationTriangleFill } from 'react-bootstrap-icons';
 
 
 
@@ -16,8 +15,8 @@ function ListDetails() {
     products: [],
     store: null
   });  
-  const [storeForm, setStoreForm] = useState(false);
-  const [newStore, setNewStore] = useState("");
+  // const [storeForm, setStoreForm] = useState(false);
+  // const [newStore, setNewStore] = useState("");
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -33,16 +32,16 @@ function ListDetails() {
 
   }, [listId]);
 
-  const handleSelectStore = () => {
-    createStore(listId, { name: newStore })
-     .then((newStore) => {
-        setListDetails({...listDetails, store: newStore});
-        setStoreForm(false);
-        setNewStore("");
-     }).catch((error) => {
-        console.error("Error creating store:", error);
-     });
-  };
+  // const handleSelectStore = () => {
+  //   createStore(listId, { name: newStore })
+  //    .then((newStore) => {
+  //       setListDetails({...listDetails, store: newStore});
+  //       setStoreForm(false);
+  //       setNewStore("");
+  //    }).catch((error) => {
+  //       console.error("Error creating store:", error);
+  //    });
+  // };
 
   const handleDeleteClick = (productId) => {
     //console.log("EL productId es...", productId)//esto esta funcionando bien , ya tengo el id del producto!
@@ -86,9 +85,13 @@ function ListDetails() {
          
           <h5>Notes :</h5>
           <p className="text-start">{listDetails.description}</p>
+          <Alert variant="danger" className="d-flex align-items-center small">
+            <ExclamationTriangleFill className="me-2" />
+            Pending Stores implementation...
+          </Alert>
         
           {/* aqui escribo para mostrar "Stores" */}
-          <h5 className="">Stores :</h5>
+          {/* <h5 className="">Stores :</h5>
           {!listDetails.store ? (
       <>
         <div>No Stores in this group</div>
@@ -120,7 +123,7 @@ function ListDetails() {
                 </ListGroup.Item>
               ))}
             </ListGroup>
-          )}
+          )} */}
           {/* aqui termina */}
           <h5 className="mb-3">Products :</h5>
           {listDetails.products.length === 0 ? (

@@ -6,18 +6,20 @@ import { Link } from "react-router-dom";
 
 function Login() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const { onLogin } = useAuthContext();
 
   function handleLogin(data) {
     login(data)
       .then((user) => onLogin(user))
+      .catch((error) => console.error("Error logging in:", error));
+      reset()
   }
 
 return (
   <Container className="d-flex align-items-center justify-content-center components" style={{minHeight: "100vh" }}>
     <Row>
-      <Col md={6} className="mx-auto">
+      <Col  style={{display:"contents"}}>
         <Form className="login-form" onSubmit={handleSubmit(handleLogin)}>
           <h1 className="text-center mb-4">Login</h1>
           <Form.Group className="mb-3" controlId="email">
