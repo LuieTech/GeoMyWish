@@ -69,7 +69,7 @@ function Lists() {
             <h2 className="text-left mb-4 mt-4">No lists in this group yet</h2>
           ) : (
             <h2 className="text-left mb-4 mt-4 ">
-              Your are on {lists[0].group.name}
+              Your are in {lists[0].group.name} 
             </h2>
           )}
 

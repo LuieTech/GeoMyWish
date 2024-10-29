@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { deleteProduct, getListDetails } from "../../service/api-services"; 
 import { useAuthContext } from "../../contexts/auth-context";  
-import { Container, Row, Col, ListGroup, Navbar, Alert } from 'react-bootstrap';
+import { useGroupContext } from "../../contexts/group-context";
+import { Container, Row, Col, ListGroup, Alert } from 'react-bootstrap';
 import { PencilSquare, Trash, PlusCircle, ExclamationTriangleFill } from 'react-bootstrap-icons';
 
 
@@ -15,21 +16,26 @@ function ListDetails() {
     products: [],
     store: null
   });  
+  console.log(listDetails);
+  
   // const [storeForm, setStoreForm] = useState(false);
   // const [newStore, setNewStore] = useState("");
   const { user } = useAuthContext();
+  const { setCurrentGroup, currentGroup } = useGroupContext();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     getListDetails(listId)
       .then((res) => {
         setListDetails(res);
+        if (res.group) {
+          setCurrentGroup(res.group); // Establecer el grupo actual en el contexto
+        }
       })
       .catch((error) => {
         console.error("Error fetching list details:", error);
-      });        
-      //console.log("ESTE ES EL LIST DETAILS ID: ", listId);
-
+      });
   }, [listId]);
 
   // const handleSelectStore = () => {
@@ -67,8 +73,8 @@ function ListDetails() {
     <Container className="components">
       <Row>
         <Col md={6} className="mb-4 mt-4">
-          <div className="mb-2 d-flex align-items-center gap-2 ">
-            <h2>Your are in {listDetails.title} list</h2>
+          <div className="mb-2 d-flex align-items-center gap-1">
+            <h2>{listDetails.title}</h2>
             <div className="">
               <PencilSquare 
                 size={45} 

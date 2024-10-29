@@ -4,6 +4,7 @@ const GroupContext = createContext();
 
 export const GroupProvider = ({ children }) => {
   const [groups, setGroups] = useState([]);
+  const [currentGroup, setCurrentGroup] = useState(null);
 
   const addGroup = (group) => {
     setGroups([...groups, group]);
@@ -13,13 +14,21 @@ export const GroupProvider = ({ children }) => {
     setGroups(groups.filter(group => group.id !== groupId));
   };
 
+  const value = {
+    groups,
+    currentGroup,
+    setCurrentGroup,
+    addGroup,
+    removeGroup,
+  };
+
   return (
-    <GroupContext.Provider value={{ groups, addGroup, removeGroup }}>
+    <GroupContext.Provider value={value}>
       {children}
     </GroupContext.Provider>
   );
 };
 
-export const useGroupContext = () => {
+export function useGroupContext(){
   return useContext(GroupContext);
 };

@@ -1,0 +1,7 @@
+Api/node_modules
+Api/.env
+Web/node_modules
+Web/dist
+
+# ingnore logs
+*.log
