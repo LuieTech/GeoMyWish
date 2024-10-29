@@ -23,8 +23,8 @@ function Signup() {
   }
 
 return (
-  <Container className="d-flex align-items-center justify-content-center" style={{ backgroundColor: '#f8f9fa', minHeight: "100vh", maxWidth:"auto" }}>
-    <Row>
+  <Container className="d-flex align-items-center justify-content-center components pb-5" >
+    <Row >
       <Col style={{display:"contents"}}>
         <Form className="w-auto" onSubmit={handleSubmit(handleSignup)}>
           <h1 className="text-center mb-4">Sign Up</h1>

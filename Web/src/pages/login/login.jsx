@@ -17,7 +17,7 @@ function Login() {
   }
 
 return (
-  <Container className="d-flex align-items-center justify-content-center components" style={{minHeight: "100vh" }}>
+  <Container className="d-flex align-items-center pb-5 justify-content-center components" style={{minHeight: "100vh" }}>
     <Row>
       <Col  style={{display:"contents"}}>
         <Form className="login-form" onSubmit={handleSubmit(handleLogin)}>
