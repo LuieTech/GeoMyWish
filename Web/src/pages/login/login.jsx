@@ -46,7 +46,7 @@ function Login() {
                 placeholder="Enter email"
                 {...register("email", {
                   required: "Email is required",
-                  onChange: () => setError(false), // Aquí agregamos el manejador onChange
+                  onChange: () => setError(false), 
                 })}
               />
               {errors.email && (
