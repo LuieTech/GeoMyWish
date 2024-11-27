@@ -19,6 +19,7 @@ service.interceptors.response.use(
     } else if(error.response.status === 404 && error.response.data.message === "Lists not found"){
       return Promise.resolve([]);
     } else {
+      // console.log("this is login error: ",error);
       return Promise.reject(error);
     }
   }
