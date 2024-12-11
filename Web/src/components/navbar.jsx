@@ -14,8 +14,6 @@ function Navbar({ groupId }) {
 
   const pathSegments = location.pathname.split("/");
 
-  // const groupId = pathSegments[2];
-
   const getBackRoute = () => {
     if (
       location.pathname.startsWith("/groups/") &&
@@ -54,17 +52,30 @@ function Navbar({ groupId }) {
         {shouldShowBackButton && (
           <button className="btn btn-link" onClick={() => handleBackClick()}>
             <ArrowLeftShort size={32} />
-            
           </button>
         )}
 
         {!shouldShowBackButton && user && (
-          <div className="user-info ">
-            <strong>{`Welcome, ${user.username}!`}</strong>
+          <div className="d-flex gap-3 align-items-center">
+            {user.avatar && (
+              <img
+                src={user.avatar}
+                alt="avatar"
+                className="rounded-circle"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "cover", // Mantiene proporciones correctas
+                }}
+              />
+            )}
+            <strong>{user.username}</strong>
           </div>
         )}
 
-        {currentGroup && location.pathname.includes("/list/") && <h3 className="fw-bold">{currentGroup.name}</h3>}
+        {currentGroup && location.pathname.includes("/list/") && (
+          <h3 className="fw-bold">{currentGroup.name}</h3>
+        )}
 
         <div className="navbar-content">
           {user && (

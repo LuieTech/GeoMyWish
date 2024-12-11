@@ -9,12 +9,15 @@ require('./config/db.config.js');
 const sessionConfig = require('./config/session.config');
 const app = express();
 
-
 app.use(express.json());
+
 app.use(logger('dev'));
 app.use(sessionConfig.session);
 app.use(sessionConfig.loadSession);
 app.use(corsConfig);
+
+app.use(express.static("public"))
+
 
 const api = require('./config/routes.config');
 app.use('/v1', api);

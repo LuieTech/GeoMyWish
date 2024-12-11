@@ -2,7 +2,17 @@ const User = require('../models/user.model');
 
 
 module.exports.register = (req, res, next) => {
-  User.create(req.body)
+  console.log(req.body);
+  console.log(req.file);
+  
+  // return res.json({});
+  
+  User.create({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    avatar: req.file?.path,
+  })
     .then(user => res.status(201).json(user))
     .catch(next);
 
@@ -16,6 +26,8 @@ module.exports.login = (req, res, next) => {
           .then(match => {
             if(match) {
               req.session.userId = user.id;
+              console.log(user);
+              
               res.status(200).json(user)
             } else {
               res.status(404).json({message: 'User or Password incorrect'})

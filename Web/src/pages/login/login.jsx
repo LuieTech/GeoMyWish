@@ -17,7 +17,9 @@ function Login() {
 
   function handleLogin(data) {
     login(data)
-      .then((user) => onLogin(user))
+      .then((user) => {
+        onLogin(user)
+      })
       .catch((error) => {
         console.error("Error logging in:", error);
         if (error.response.status === 404) setError(true);

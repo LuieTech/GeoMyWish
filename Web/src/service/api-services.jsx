@@ -30,7 +30,17 @@ console.log(import.meta.env.VITE_REACT_BASE_API_URL);
 
 //User
 export function createUser(data){
-  return service.post("/register", data)
+
+  const formData = new FormData();
+
+  formData.append('username', data.username)
+  formData.append('email', data.email)
+  formData.append('password', data.password)
+  if(data.avatar){
+    formData.append('avatar', data.avatar[0])
+  }
+
+  return service.post("/register", formData)
 }
 
 export function login(data){

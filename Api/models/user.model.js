@@ -21,6 +21,9 @@ const schema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Password is required.']
+  },
+  avatar: {
+    type: String,
   }
 },
 {
@@ -29,9 +32,15 @@ const schema = new mongoose.Schema({
     virtuals: true,
     transform: function (doc, ret) {
       ret.id = ret._id;
+
+      // if (ret.avatar && !ret.avatar.startsWith('http')) {
+      //   ret.avatar = `http://localhost:3000/${ret.avatar.replace("public/", "")}`;
+      // }
+
       delete ret._id;
       delete ret.__v;
       delete ret.password;
+      
       return ret;
     }
   }

@@ -11,8 +11,7 @@ function Signup() {
   const { user, onLogin } = useAuthContext();
 
   function handleSignup(data) {
-    console.log(data);
-    
+
     createUser(data)
       .then(() => login(data))
       .then((user) => onLogin(user))
@@ -32,6 +31,11 @@ return (
             <Form.Label>Name</Form.Label>
             <Form.Control type="text" placeholder="Enter your name" {...register("username", { required: "Name is required" })} />
             {errors.username && <div className="alert alert-danger mt-2" role="alert">{errors.username.message}</div>}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="avatar">
+            <Form.Label>Image <span>(optional)</span></Form.Label>
+            <Form.Control type="file"  {...register("avatar")} />
+            {errors.avatar && <div className="alert alert-danger mt-2" role="alert">{errors.avatar.message}</div>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email</Form.Label>

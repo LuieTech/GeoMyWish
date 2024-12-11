@@ -7,12 +7,13 @@ const groups = require('../controllers/list-groups.controller');
 const lists = require('../controllers/lists.controller');
 const product = require('../controllers/products.controller');
 const storeController = require('../controllers/stores.controller');
+const upload = require('../config/multer.config')
 
 const { isAuthenticated, isGroupOwner, isListOwner, isProductOwner } = 
 require('../middlewares/auth.middleware');
 
 //users controller
-router.post('/register', user.register);
+router.post('/register', upload.single('avatar'), user.register);
 router.post('/login', user.login);
 router.post('/logout', user.logout);
 
