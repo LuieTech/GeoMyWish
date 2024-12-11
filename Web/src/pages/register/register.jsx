@@ -11,6 +11,7 @@ function Signup() {
   const { user, onLogin } = useAuthContext();
 
   function handleSignup(data) {
+
     createUser(data)
       .then(() => login(data))
       .then((user) => onLogin(user))
@@ -21,15 +22,20 @@ function Signup() {
   }
 
 return (
-  <Container className="d-flex align-items-center justify-content-center" style={{ backgroundColor: '#f8f9fa', minHeight: "100vh" }}>
-    <Row>
-      <Col md={6} className="mx-auto">
-        <Form className="signup-form" onSubmit={handleSubmit(handleSignup)}>
+  <Container className="d-flex align-items-center justify-content-center components pb-5" >
+    <Row >
+      <Col style={{display:"contents"}}>
+        <Form className="w-auto" onSubmit={handleSubmit(handleSignup)}>
           <h1 className="text-center mb-4">Sign Up</h1>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control type="text" placeholder="Enter your name" {...register("username", { required: "Name is required" })} />
             {errors.username && <div className="alert alert-danger mt-2" role="alert">{errors.username.message}</div>}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="avatar">
+            <Form.Label>Image <span>(optional)</span></Form.Label>
+            <Form.Control type="file"  {...register("avatar")} />
+            {errors.avatar && <div className="alert alert-danger mt-2" role="alert">{errors.avatar.message}</div>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email</Form.Label>

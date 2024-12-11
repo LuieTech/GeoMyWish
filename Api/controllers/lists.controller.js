@@ -13,13 +13,15 @@ module.exports.list = (req, res, next) => {
   List.find(criteria)
     .populate('group')
     .then(lists => {
-      //console.log("Estas son las listas desde el controlador: ", lists)
+      // console.log("Estas son las listas desde el controlador: ", lists)
       if(lists.length === 0){
         return res.status(404).json({ message: 'Lists not found' });
       }
       res.status(200).json(lists);
     })
-    .catch(error => next(error));
+    .catch(error => {
+      next(error)
+    });
 };
 
 

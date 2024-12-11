@@ -5,14 +5,16 @@
 
 .input-icon-container input {
   flex: 1; /* Esto hace que el input ocupe todo el espacio disponible excepto el del icono */
-  margin-right: 5px; /* Espacio entre el input y el icono */
+  margin-right: 5px; 
 }
 
 .input-icon {
-  cursor: pointer; /* Cambia el cursor a una mano para indicar que el icono es interactivo */
+  cursor: pointer; 
 }
 
 .components{
   background-color: #E7F0FE ;
   height: 100vh;
+  padding: 0 8vw;
+  
 }

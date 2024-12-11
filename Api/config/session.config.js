@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const User = require("../models/user.model");
 
 module.exports.session = expressSession({
-  secret: process.env.SESSION_SECRET || "super-secret (change it)",
+  secret: process.env.SESSION_SECRET || "",
   proxy: process.env.SESSION_SECURE === "true",
   resave: false,
   saveUninitialized: false,
@@ -14,7 +14,7 @@ module.exports.session = expressSession({
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.SESSION_SECURE === "true",
+    secure: process.env.SESSION_SECURE === "",
   },
 });
 

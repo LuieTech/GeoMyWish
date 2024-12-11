@@ -27,3 +27,10 @@
 .list-group-item .text-muted {
   font-size: 0.8em; /* Ajusta el tamaño según prefieras */
 }
+
+.mi-boton:hover {
+  /* background: #011114; */
+  color: #007bff;
+  transform: translateY(-3px);
+  transition: 0.3s;
+}

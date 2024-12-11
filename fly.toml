@@ -1,0 +1,30 @@
+# fly.toml app configuration file generated for geomywish on 2024-06-02T21:34:21-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'geomywish'
+primary_region = 'mia'
+
+[env]
+  PORT = '3000'
+  ALLOWED_ORIGINS = 'https://geomywish.fly.dev'
+  SESSION_SECURE = 'true'
+  MONGODB_URL='mongodb+srv://luitech:290583@geo-my-wish.227jfc8.mongodb.net/?retryWrites=true&w=majority&appName=Geo-my-wish'
+
+[build]
+  [build.args]
+    VITE_REACT_BASE_API_URL = 'https://geomywish.fly.dev/v1'
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
